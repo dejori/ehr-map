@@ -307,11 +307,25 @@ function openHelpPopup(){
 }
 </script>
 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-39939591-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
 <!-- Modal -->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">About this page</h3>
+    <h3 id="myModalLabel">About</h3>
   </div>
   <div class="modal-body">
     <p>This is an interactive visualization of data published by the CMS (Centers for Medicare &amp; Medicaid Services) on <a href="http://www.healthdata.gov/data/dataset/cms-medicare-and-medicaid-ehr-incentive-program-electronic-health-record-products-used">healthdata.gov</a>. It provides information about where and when providers attested for EHR incentives, what EHR vendor they were using etc...</p>
