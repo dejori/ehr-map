@@ -29,38 +29,28 @@
 
 
 <div class="container">
-
-	<!-- <p>
-        The Department of Health and Human Services’ Office of the National Coordinator for Health 
-		Information Technology (ONC) and the Center for Medicare and Medicaid Services (CMS) post the most 
-		up-to-date list of electronic health record (EHR) products used for attestation to the CMS EHR Incentive 
-		Program at www.healthIT.gov, a public resource for high-value datasets, tools, and applications using 
-		data about health and health care. 
-    </p> -->
     <div class="navbar navbar-inverse navbar-fixed-top">
   		<div class="navbar-inner">
     		<div class="container">
  
-		      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
 		      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </a>
  
-		      <!-- Be sure to leave the brand out there if you want it shown -->
 		      <a class="brand" href="#">EHR Adoption</a>
 		 
-		      <!-- Everything you want hidden at 940px or less, place within here -->
 		      <div class="nav-collapse collapse">
 
 		        <ul class="nav">
 		          <li class="active">
-		            <a href=""><i class="icon-ok"></i> Attestations</a>
+		            <a href="">Attestations</a>
 		          </li>
 		        </ul>
                 <ul class="nav pull-right">
-                    <li ><a id='about' href="#" data-toggle="modal" data-target="#myModal">About</a></li>
+                    <li ><a id='about' href="#" data-toggle="modal" data-target="#myModal"><i class="icon-hand-right"></i> About</a></li>
+                    <li ><a id='loading' href="#" data-toggle="modal" data-target="#myModal"><i class="icon-spinner icon-spin"></i> loading data ...</a></li>
                 </ul>
 		      </div>
 		    </div>
@@ -72,8 +62,8 @@
             <strong>Attestations by Month (2011 - 2013)</strong>
             <div id="monthly-chart"></div>
         </div>
-    	<div id="us-chart">
-            <strong>Attestations by State</strong>
+    	<div class="row" id="us-chart">
+            <strong>By State</strong>
             <span class="reset" style="display: none;"> = <span class="filter"></span></span>
             <a class="reset" href="javascript:usChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
             <div class="clearfix"></div>
@@ -117,13 +107,13 @@ var monthlyChart = dc.barChart("#monthly-chart");
 
 d3.csv("mu_report.aggregated.csv", function (csv) {
     
-    $('#loading-wheel').css('visibility', 'hidden');
+    $('#loading').css('visibility', 'hidden');
     var dateFormat = d3.time.format("%m/%d/%Y");
 	var numberFormat = d3.format(".2f");
 
 	csv.forEach(function(e){
         e.month = d3.time.month(dateFormat.parse(e["Attestation Date"])); // pre-calculate month for better performance
-        console.log('.')
+        // console.log('.')
 	});
 
 	var data = crossfilter(csv);
@@ -234,9 +224,9 @@ d3.csv("mu_report.aggregated.csv", function (csv) {
         }
     );
 
-	productSettingChart.width(320)
-        .height(320)
-        .radius(150)
+	productSettingChart.width(300)
+        .height(300)
+        .radius(120)
         .innerRadius(60)
         .valueAccessor(function(p) {return p.value.attestations;})
         .dimension(productSetting)
@@ -245,9 +235,9 @@ d3.csv("mu_report.aggregated.csv", function (csv) {
             return d.data.key;
         });
 
-	vendorChart.width(320)
-        .height(320)
-        .radius(150)
+	vendorChart.width(300)
+        .height(300)
+        .radius(120)
         .innerRadius(60)
         .valueAccessor(function(p) {return p.value.attestations;})
         .dimension(vendor)
@@ -256,9 +246,9 @@ d3.csv("mu_report.aggregated.csv", function (csv) {
             return d.data.key
         });
 
-	specialtyChart.width(320)
-        .height(320)
-        .radius(150)
+	specialtyChart.width(300)
+        .height(300)
+        .radius(120)
         .innerRadius(60)
         .valueAccessor(function(p) {return p.value.attestations;})
         .dimension(specialty)
@@ -267,9 +257,9 @@ d3.csv("mu_report.aggregated.csv", function (csv) {
             return d.data.key;
         });
 
-    monthlyChart.width(990)
+    monthlyChart.width(900)
         .height(80)
-        .margins({top: 10, right: 40, bottom: 20, left: 100})
+        .margins({top: 10, right: 0, bottom: 20, left: 100})
         .valueAccessor(function(p) {return p.value.attestations;})
         .dimension(months)
         .group(monthGroup)
@@ -287,7 +277,7 @@ d3.csv("mu_report.aggregated.csv", function (csv) {
 
 
 	d3.json("us-states.json", function (statesJson) {
-		usChart.width(990)
+		usChart.width(900)
             .height(500)
             .valueAccessor(function(p) {return p.value.attestations;})
             .dimension(states)
@@ -321,8 +311,9 @@ function openHelpPopup(){
     <h3 id="myModalLabel">About this page</h3>
   </div>
   <div class="modal-body">
-    <p>The federal Centers for Medicare and Medicaid Services (CMS) published a <a href="http://www.healthdata.gov/data/dataset/cms-medicare-and-medicaid-ehr-incentive-program-electronic-health-record-products-used">dataset</a> with information about providers that have attested to meaningful use, such as: which EHR vendor system they use, where and when they attested etc...</p>
-    <p>This page let's you look at those data along different dimensions.</p>
+    <p>This is an interactive visualization of data published by the CMS (Centers for Medicare &amp; Medicaid Services) on <a href="http://www.healthdata.gov/data/dataset/cms-medicare-and-medicaid-ehr-incentive-program-electronic-health-record-products-used">healthdata.gov</a>. It provides information about where and when providers attested for EHR incentives, what EHR vendor they were using etc...</p>
+    <p>The page is interactive, so go ahead and slice the data and see what happens.</p>
+    <p>It heavily utilizes <a href="http://nickqizhu.github.io/dc.js/">dc.js</a> the super awesome Dimensional Charting Javascript Library</p>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
