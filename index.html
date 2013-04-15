@@ -108,7 +108,7 @@ var monthlyChart = dc.barChart("#monthly-chart");
 
 
 
-d3.csv("mu_report.aggregated.csv", function (csv) {
+d3.csv("data/mu_report.aggregated.csv", function (csv) {
     
     $('#loading').css('visibility', 'hidden');
     var dateFormat = d3.time.format("%m/%d/%Y");
@@ -279,7 +279,7 @@ d3.csv("mu_report.aggregated.csv", function (csv) {
         });
 
 
-	d3.json("us-states.json", function (statesJson) {
+	d3.json("data/us-states.json", function (statesJson) {
 		usChart.width(900)
             .height(500)
             .valueAccessor(function(p) {return p.value.attestations;})
@@ -330,7 +330,7 @@ function openHelpPopup(){
   <div class="modal-body">
     <p>This is an interactive visualization of data published by the CMS (Centers for Medicare &amp; Medicaid Services) on <a href="http://www.healthdata.gov/data/dataset/cms-medicare-and-medicaid-ehr-incentive-program-electronic-health-record-products-used">healthdata.gov</a>. It provides information about where and when providers attested for EHR incentives, what EHR vendor they were using etc...</p>
     <p>The page is interactive, so go ahead and slice the data and see what happens.</p>
-    <p>It heavily utilizes <a href="http://nickqizhu.github.io/dc.js/">dc.js</a> the super awesome Dimensional Charting Javascript Library</p>
+    <p>It heavily utilizes the super awesome Dimensional Charting Javascript Library <a href="http://nickqizhu.github.io/dc.js/">dc.js</a>.</p>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
