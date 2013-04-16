@@ -106,15 +106,15 @@ var vendorChart = dc.pieChart("#vendor-chart");
 var specialtyChart = dc.pieChart("#specialty-chart");
 var monthlyChart = dc.barChart("#monthly-chart");
 
-var dateFormat = d3.time.format("%m/%d/%Y");
+var dateFormat = d3.time.format("%m/%Y");
 var numberFormat = d3.format(".2f");
 
 d3.csv("data/mu_report.aggregated.csv", function (csv) {
     
     $('#loading').css('visibility', 'hidden');
     
-	csv.forEach(function(e){
-        e.month = d3.time.month(dateFormat.parse(e["Attestation Date"]));
+	csv.forEach(function(d){
+        d.month = d3.time.month(dateFormat.parse(d["Attestation Date"]));
 	});
 
 	var data = crossfilter(csv);
@@ -122,10 +122,6 @@ d3.csv("data/mu_report.aggregated.csv", function (csv) {
     var all = data.groupAll().reduceSum(function (d) {
         return d["Attestations"];
     });
-
-    dc.dataCount("#data-count")
-            .dimension(data)
-            .group(all);
 
 
     var months = data.dimension(function (d) {
@@ -273,7 +269,7 @@ d3.csv("data/mu_report.aggregated.csv", function (csv) {
         .xUnits(d3.time.months)
         .renderVerticalGridLines(false)
         .title(function (d) {
-            return d.key + "\nNumber of Attestations: " + Math.floor(d.value.attestations);
+            return dateFormat(d.key) + "\nNumber of Attestations: " + Math.floor(d.value.attestations);
         });
 
 
